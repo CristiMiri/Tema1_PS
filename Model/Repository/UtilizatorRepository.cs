@@ -154,6 +154,23 @@ namespace Tema1_PS.Model.Repository
             }
             return utilizatori;
         }
+        public Utilizator GetUtilizatorbyEmailandParola(string email, string parola)
+        {
+            UtilizatorTable();
+            if (utilizatoriTable == null)
+            {
+                return null;
+            }
+            foreach (DataRow row in utilizatoriTable.Rows)
+            {
+                if (row["email"].ToString() == email && row["parola"].ToString() == parola)
+                {
+                    return rowToUtilizator(row);
+                }
+            }
+            return null;
+        }
+        
 
     }
 }
