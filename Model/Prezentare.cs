@@ -1,11 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Tema1_PS.Model
+﻿namespace TEMA1_PS.Model
 {
+    public enum Sectiune
+    {
+        STIINTE,
+        TEHNOLOGIE,
+        MEDICINA,
+        ARTA,
+        SPORT
+    }
+
     internal class Prezentare
     {
         private int id;
@@ -14,8 +17,10 @@ namespace Tema1_PS.Model
         private String descriere;
         private String data;
         private String ora;
+        private Sectiune sectiune;
+        private int id_conferinta;
 
-        public Prezentare(int id, string titlu, string autor, string descriere, string data, string ora)
+        public Prezentare(int id, string titlu, string autor, string descriere, string data, string ora, Sectiune sectiune,int id_conferinta)
         {
             this.id = id;
             this.titlu = titlu;
@@ -23,7 +28,12 @@ namespace Tema1_PS.Model
             this.descriere = descriere;
             this.data = data;
             this.ora = ora;
+            this.sectiune = sectiune;
+            this.id_conferinta = id_conferinta;
+
+
         }
+        
 
         public Prezentare(Prezentare prezentare)
         {
@@ -33,6 +43,9 @@ namespace Tema1_PS.Model
             this.descriere = prezentare.descriere;
             this.data = prezentare.data;
             this.ora = prezentare.ora;
+            this.sectiune = prezentare.sectiune;
+            this.id_conferinta = prezentare.id_conferinta; 
+            
         }
 
         public Prezentare()
@@ -43,6 +56,8 @@ namespace Tema1_PS.Model
             this.descriere = "";
             this.data = "";
             this.ora = "";
+            this.sectiune = Sectiune.STIINTE;
+            this.id_conferinta = 0;            
         }
 
         public int Id
@@ -75,6 +90,15 @@ namespace Tema1_PS.Model
             get { return ora; }
             set { ora = value; }
         }
-
+        public Sectiune Sectiune
+        {
+            get { return sectiune; }
+            set { sectiune = value; }
+        }
+        public int Id_conferinta
+        {
+            get { return this.id_conferinta;   }
+            set { this.id_conferinta = value;  }
+        }
     }
 }

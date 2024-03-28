@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Tema1_PS.Model.Repository;
-using Tema1_PS.View.Interfaces;
+using TEMA1_PS.Model.Repository;
+using TEMA1_PS.View.Interfaces;
 
-namespace Tema1_PS.Presenter
+namespace TEMA1_PS.Presenter
 {
     internal class UtilizatorPresenter
     {
+        /*
         //Accesarea volumului conferinței'
         private IUtilizatorGui _utilizatorGui;
         private ConferintaRepository _conferintaRepository;
@@ -26,7 +27,7 @@ namespace Tema1_PS.Presenter
 
         public void getConferinte()
         {
-            _utilizatorGui.setConferinte = _conferintaRepository.GetAll();
+            
         }
 
         public void getPretentari()
@@ -38,5 +39,11 @@ namespace Tema1_PS.Presenter
         {
             
         }
+
+
+        //Press save->get data from form -> save to db
+        //Initiate form->create interface->get data from form->save to db
+        //Crate form in page -> get data from form -> save to db
+        */
     }
 }

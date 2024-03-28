@@ -5,101 +5,104 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tema1_PS.Model.Repository
+namespace TEMA1_PS.Model.Repository
 {
     internal class ParticipantiRepository
     {
         private Repository repository;
-        private UtilizatorRepository utilizatorRepository;
-        private ConferintaRepository conferintaRepository;
-        // Link Table Conferinta-Utilizator (participanti)
+        private UtilizatorRepository utilizatorRepository;        
+        private PrezentareRepository prezentareRepository;
+        // Link Table Prezentare-Utilizator (participanti)
 
         public ParticipantiRepository()
         {
             repository = new Repository();
             utilizatorRepository = new UtilizatorRepository();
-            conferintaRepository = new ConferintaRepository();
+            prezentareRepository = new PrezentareRepository();
         }
 
         public DataTable Participanti()
         {
-            string query = "SELECT * FROM conferinte_utilizatori";
+            string query = "SELECT * FROM prezentari_utilizatori";
             DataTable participantiTable = repository.ExecuteQuery(query);
+            
             return participantiTable;
         }
 
-        public List<Utilizator> GetUtilizatoribyConferinta(Conferinta conferinta)
+        public List<Utilizator> GetUtilizatoribyPrezentare(Prezentare prezentare)
         {
-            DataTable participanti = Participanti();
-            if (participanti == null)
+            DataTable participantiTable = Participanti();
+            if(participantiTable != null)
             {
-                return null;
-            }
-            List<Utilizator> utilizatori = new List<Utilizator>();
-            foreach (DataRow row in participanti.Rows)
-            {
-                if (Convert.ToInt32(row["id_conferinta"]) == conferinta.Id)
+                List<Utilizator> utilizatori = new List<Utilizator>();
+                foreach(DataRow row in participantiTable.Rows)
                 {
-                    UtilizatorRepository utilizatorRepository = new UtilizatorRepository();
-                    Utilizator utilizator = utilizatorRepository.GetUtilizatorById(Convert.ToInt32(row["id_utilizator"]));
-                    utilizatori.Add(utilizator);
-                }
-            }
-            return utilizatori;
-        }
-
-        public List<Utilizator> GetUtilizatoribySectiune(Sectiune sectiune)
-        {
-            List<Conferinta> conferinte = conferintaRepository.GetConferinteBySectiune(sectiune);
-            DataTable participanti = Participanti();
-            if (participanti == null || conferinte == null)
-            {
-                return null;
-            }
-            List<Utilizator> utilizatori = new List<Utilizator>();
-            foreach (Conferinta conferinta in conferinte)
-            {
-                foreach (DataRow row in participanti.Rows)
-                {
-                    if (Convert.ToInt32(row["id_conferinta"]) == conferinta.Id)
+                    if ((int)row["prezentare_id"] == prezentare.Id)
                     {
-                        UtilizatorRepository utilizatorRepository = new UtilizatorRepository();
-                        Utilizator utilizator = utilizatorRepository.GetUtilizatorById(Convert.ToInt32(row["id_utilizator"]));
-                        utilizatori.Add(utilizator);
+                        utilizatori.Add(utilizatorRepository.GetUtilizatorById((int)row["utilizator_id"]));
                     }
                 }
+                return utilizatori;
             }
-            return utilizatori;
+            return null;
+        }
+        
+        public List<Utilizator> getParticipanti()
+        {
+            DataTable participantiTable = Participanti();
+            if(participantiTable != null || participantiTable.Rows.Count > 0)
+            {
+                
+                List<Utilizator> utilizatori = new List<Utilizator>();
+                foreach(DataRow row in participantiTable.Rows)
+                {
+                    utilizatori.Add(utilizatorRepository.GetUtilizatorById((int)row["utilizator_id"]));
+                }
+                Console.WriteLine(participantiTable.Rows.Count);
+                return utilizatori;
+            }
+            return null;
         }
 
-        public bool addParticipanti(Conferinta conferinta, Utilizator utilizator)
+        public bool addParticipanti(Prezentare prezentare, Utilizator utilizator)
         {
-            string nonQuery = "INSERT INTO conferinte_utilizatori VALUES (" +
-                conferinta.Id + ", " +
-                utilizator.Id + ")";
+            string nonQuery = "INSERT INTO prezentari_utilizatori VALUES (" +
+                prezentare.Id + ", " + 
+                utilizator.Id + ")";                
             return repository.ExecuteNonQuery(nonQuery);
         }
 
-        public bool deleteParticipanti(Conferinta conferinta, Utilizator utilizator)
+        public bool deleteParticipanti(Prezentare prezentare, Utilizator utilizator)
         {
-            string nonQuery = "DELETE FROM conferinte_utilizatori WHERE id_conferinta = " +
-                conferinta.Id + " AND id_utilizator = " +
+            string nonQuery = "DELETE FROM prezentari_utilizatori WHERE id_conferinta = " +
+                prezentare.Id + " AND id_utilizator = " +
                 utilizator.Id;
             return repository.ExecuteNonQuery(nonQuery);
         }
 
-        public bool deleteParticipanti(Conferinta conferinta)
+        public bool deleteParticipanti(Prezentare prezentare)
         {
-            string nonQuery = "DELETE FROM conferinte_utilizatori WHERE id_conferinta = " +
-                conferinta.Id;
+            string nonQuery = "DELETE FROM prezentari_utilizatori WHERE id_prezentare = " +
+                prezentare.Id;
             return repository.ExecuteNonQuery(nonQuery);
-        }
+        }        
 
         public bool deleteParticipanti(Utilizator utilizator)
         {
-            string nonQuery = "DELETE FROM conferinte_utilizatori WHERE id_utilizator = " +
+            string nonQuery = "DELETE FROM prezentari_utilizatori WHERE id_utilizator = " +
                 utilizator.Id;
             return repository.ExecuteNonQuery(nonQuery);
+        }
+
+        public List<Utilizator> GetUtilizatorsbySectiune(Sectiune sectiune)
+        {
+            List<Prezentare> prezentari = prezentareRepository.GetPrezentarebySectiune(sectiune);
+            List<Utilizator> utilizatori = new List<Utilizator>();
+            foreach(Prezentare prezentare in prezentari)
+            {
+                utilizatori.AddRange(GetUtilizatoribyPrezentare(prezentare));
+            }
+            return utilizatori;
         }
     }
 }

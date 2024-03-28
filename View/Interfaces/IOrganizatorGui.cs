@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Windows.Controls;
 
-namespace Tema1_PS.View.Interfaces
+namespace TEMA1_PS.View.Interfaces
 {
     internal interface IOrganizatorGui : IGUI
     {
+        DataGrid GetTabelPrezentari();
+        DataGrid GetTabelParticipanti();
     }
 }

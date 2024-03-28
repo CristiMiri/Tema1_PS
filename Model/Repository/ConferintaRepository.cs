@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data;
 
-namespace Tema1_PS.Model.Repository
+namespace TEMA1_PS.Model.Repository
 {
     internal class ConferintaRepository
     {
@@ -16,7 +11,7 @@ namespace Tema1_PS.Model.Repository
                         private String data;
                         private List<Utilizator> participanti;
                         private List<Prezentare> prezentari;
-                        private Sectiune sectiune;*/
+                        */
         
         public ConferintaRepository()
         {
@@ -36,23 +31,24 @@ namespace Tema1_PS.Model.Repository
 
         public Conferinta rowToConferinta(DataRow row)
         {
-            Conferinta conferinta = new Conferinta();
-            conferinta.Id = Convert.ToInt32(row["id"]);
-            conferinta.Titlu = row["titlu"].ToString();
-            conferinta.Locatie = row["locatie"].ToString();
-            conferinta.Data = row["data"].ToString();
-            conferinta.Sectiune = (Sectiune)Enum.Parse(typeof(Sectiune), row["sectiune"].ToString());
-            return conferinta;
+            
+            Conferinta conferinta = new Conferinta
+            {
+                Id = int.Parse(row["id"].ToString()),
+                Titlu = row["titlu"].ToString(),
+                Locatie = row["locatie"].ToString(),
+                Data = row["data"].ToString()
+            };
+            return conferinta; 
         }
 
         //CRUD
         public void AddConferinta(Conferinta conferinta)
         {
-            string query = "INSERT INTO conferinte (titlu, locatie, data, sectiune) VALUES ('" +
+            string query = "INSERT INTO conferinte( titlu, locatie, data) VALUES ('" + 
                 conferinta.Titlu + "', '" + 
                 conferinta.Locatie + "', '" + 
-                conferinta.Data + "', '" + 
-                conferinta.Sectiune + "')";
+                conferinta.Data + "')";
             repository.ExecuteNonQuery(query);
         }
 
@@ -96,7 +92,6 @@ namespace Tema1_PS.Model.Repository
                 conferinta.Titlu + "', locatie = '" + 
                 conferinta.Locatie + "', data = '" + 
                 conferinta.Data + "', sectiune = '" + 
-                conferinta.Sectiune + "' WHERE id = " + 
                 conferinta.Id;
             repository.ExecuteNonQuery(query);
         }
@@ -108,24 +103,6 @@ namespace Tema1_PS.Model.Repository
         }
 
         //Filters
-        public List<Conferinta> GetConferinteBySectiune(Sectiune sectiune)
-        {
-            DataTable conferinteTable = ConferintaTable();
-            if (conferinteTable == null)
-            {
-                return null;
-            }
-            List<Conferinta> conferinte = new List<Conferinta>();
-            foreach (DataRow row in conferinteTable.Rows)
-            {
-                Conferinta conferinta = rowToConferinta(row);
-                if (conferinta.Sectiune == sectiune)
-                {
-                    conferinte.Add(conferinta);
-                }
-            }
-            return conferinte;
-        }
 
         
     }

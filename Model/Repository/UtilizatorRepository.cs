@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tema1_PS.Model.Repository
+namespace TEMA1_PS.Model.Repository
 {
     internal class UtilizatorRepository
     {
@@ -45,7 +45,7 @@ namespace Tema1_PS.Model.Repository
             utilizator.Nume = row["nume"].ToString();
             utilizator.Email = row["email"].ToString();
             utilizator.Parola = row["parola"].ToString();
-            utilizator.UserType = (UserType)Enum.Parse(typeof(UserType), row["userType"].ToString());
+            utilizator.UserType = (UserType)Enum.Parse(typeof(UserType), row["user_type"].ToString());
             utilizator.Telefon = row["telefon"].ToString();
             return utilizator;
         }
@@ -60,14 +60,20 @@ namespace Tema1_PS.Model.Repository
         //CRUD
         public bool addUtilizator(Utilizator utilizator)
         {
-            string nonQuery = "INSERT INTO utilizatori VALUES (" + 
-                utilizator.Id + ", '" + 
-                utilizator.Nume + "', '" + 
-                utilizator.Email + "', '" + 
-                utilizator.Parola + "', '" + 
-                utilizator.UserType + "', '" + 
+            Utilizator utilizatorExist = GetUtilizatorbyEmail(utilizator.Email);
+            if (utilizatorExist != null)
+            {
+                return false;
+            }
+            string nonQuery = "INSERT INTO utilizatori (Nume, Email, Parola, User_Type, Telefon) VALUES ('" +
+                utilizator.Nume + "', '" +
+                utilizator.Email + "', '" +
+                utilizator.Parola + "', '" +
+                utilizator.UserType + "', '" +
                 utilizator.Telefon + "')";
+
             return repository.ExecuteNonQuery(nonQuery);
+
         }
         
         public List<Utilizator> GetUtilizatori()
@@ -108,7 +114,7 @@ namespace Tema1_PS.Model.Repository
                 "nume = '" + utilizator.Nume + "', " +
                 "email = '" + utilizator.Email + "', " +
                 "parola = '" + utilizator.Parola + "', " +
-                "userType = '" + utilizator.UserType + "', " +
+                "user_type = '" + utilizator.UserType + "', " +
                 "telefon = '" + utilizator.Telefon + "' " +
                 "where id = " + utilizator.Id;
             return repository.ExecuteNonQuery(nonQuery);
@@ -147,7 +153,7 @@ namespace Tema1_PS.Model.Repository
             List<Utilizator> utilizatori = new List<Utilizator>();
             foreach (DataRow row in utilizatoriTable.Rows)
             {
-                if ((UserType)Enum.Parse(typeof(UserType), row["userType"].ToString()) == userType)
+                if ((UserType)Enum.Parse(typeof(UserType), row["usertype"].ToString()) == userType)
                 {
                     utilizatori.Add(rowToUtilizator(row));
                 }
@@ -164,6 +170,22 @@ namespace Tema1_PS.Model.Repository
             foreach (DataRow row in utilizatoriTable.Rows)
             {
                 if (row["email"].ToString() == email && row["parola"].ToString() == parola)
+                {
+                    return rowToUtilizator(row);
+                }
+            }
+            return null;
+        }
+        public Utilizator GetUtilizatorbyEmail(string email)
+        {
+            UtilizatorTable();
+            if (utilizatoriTable == null)
+            {
+                return null;
+            }
+            foreach (DataRow row in utilizatoriTable.Rows)
+            {
+                if (row["email"].ToString() == email)
                 {
                     return rowToUtilizator(row);
                 }

@@ -2,7 +2,7 @@
 using System.Data;
 using System.Windows;
 
-namespace Tema1_PS
+namespace TEMA1_PS
 {
     /// <summary>
     /// Interaction logic for App.xaml

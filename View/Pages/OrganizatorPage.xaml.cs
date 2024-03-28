@@ -12,17 +12,36 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TEMA1_PS.Presenter;
+using TEMA1_PS.View.Interfaces;
 
-namespace Tema1_PS.View
+namespace TEMA1_PS.View
 {
     /// <summary>
     /// Interaction logic for OrganizatorPage.xaml
     /// </summary>
-    public partial class OrganizatorPage : Page
+    public partial class OrganizatorPage : Page, IOrganizatorGui
     {
+        private OrganizatorPresenter _organizatorPresenter;
         public OrganizatorPage()
         {
             InitializeComponent();
+            _organizatorPresenter = new OrganizatorPresenter(this);
+        }
+
+        public DataGrid GetTabelPrezentari()
+        {
+            return TabelPrezentari;
+        }
+
+        public DataGrid GetTabelParticipanti()
+        {
+            return TabelParticipanti;
+        }
+
+        public void showShowMessage(string title, string message)
+        {
+            MessageBox.Show(message, title);
         }
     }
 }

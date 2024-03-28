@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tema1_PS.Model.Repository
+namespace TEMA1_PS.Model.Repository
 {
     internal class PrezentareRepository
     {
@@ -16,7 +16,10 @@ namespace Tema1_PS.Model.Repository
                         private String autor;
                         private String descriere;
                         private String data;
-                        private String ora; */
+                        private String ora; 
+                        private Sectiune sectiune;
+                        private int id_conferinta
+                        */
         public PrezentareRepository()
         {
             repository = new Repository();
@@ -45,8 +48,11 @@ namespace Tema1_PS.Model.Repository
             prezentare.Titlu = row["titlu"].ToString();
             prezentare.Autor = row["autor"].ToString();
             prezentare.Descriere = row["descriere"].ToString();
-            prezentare.Data = row["data"].ToString();
+            prezentare.Data = ((DateTime)row["data"]).ToShortDateString();
             prezentare.Ora = row["ora"].ToString();
+            //Sectiune  enum STIINTE,TEHNOLOGIE,MEDICINA,ARTA,SPORT
+            prezentare.Sectiune = (Sectiune)Enum.Parse(typeof(Sectiune), row["sectiune"].ToString());
+            prezentare.Id_conferinta  = Convert.ToInt32(row["id_conferinta"]);
             return prezentare;
         }
 
@@ -59,12 +65,14 @@ namespace Tema1_PS.Model.Repository
         //CRUD
         public bool AddPrezentare(Prezentare prezentare)
         {
-            string query = "INSERT INTO prezentari (titlu, autor, descriere, data, ora) VALUES ('" +
+            string query = "INSERT INTO prezentari (titlu, autor, descriere, data, ora, sectiune) VALUES ('" +
                     prezentare.Titlu + "', '" +
                     prezentare.Autor + "', '" +
                     prezentare.Descriere + "', '" +
                     prezentare.Data + "', '" +
-                    prezentare.Ora + "')";
+                    prezentare.Ora + "', '" +
+                    prezentare.Sectiune + "', '" +
+                    prezentare.Id_conferinta+ "')";
             return repository.ExecuteNonQuery(query);
         }
 
@@ -100,6 +108,8 @@ namespace Tema1_PS.Model.Repository
                 "descriere = '" + prezentare.Descriere + "', " +
                 "data = '" + prezentare.Data + "', " +
                 "ora = '" + prezentare.Ora + "' " +
+                "sectiune = '" + prezentare.Sectiune + "'" +
+                "id_conferinta = '" + prezentare.Id_conferinta + "'"+
                 "WHERE id = " + prezentare.Id;
             return repository.ExecuteNonQuery(query);
         }
@@ -111,5 +121,33 @@ namespace Tema1_PS.Model.Repository
         }
 
         //Filters
+
+        public List<Prezentare> getPrezentariBySectiune(Sectiune sectiune)
+        {
+            PrezentareTable();
+            List<Prezentare> prezentari = new List<Prezentare>();
+            foreach (DataRow row in prezentariTable.Rows)
+            {
+                if (row["sectiune"].ToString().Equals(sectiune.ToString()))
+                {
+                    prezentari.Add(rowToPrezentare(row));
+                }
+            }
+            return prezentari;
+        }
+
+        public List<Prezentare> GetPrezentarebySectiune(Sectiune sectiune)
+        {
+            PrezentareTable();
+            List<Prezentare> prezentari = new List<Prezentare>();
+            foreach (DataRow row in prezentariTable.Rows)
+            {
+                if (row["sectiune"].ToString().Equals(sectiune.ToString()))
+                {
+                    prezentari.Add(rowToPrezentare(row));
+                }
+            }
+            return prezentari;
+        }
     }
 }

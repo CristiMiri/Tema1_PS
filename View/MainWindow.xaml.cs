@@ -1,28 +1,29 @@
-﻿using System.Data;
-using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Tema1_PS.Model.Repository;
-using Tema1_PS.View;
-using Tema1_PS.View.ModalForms;
+using TEMA1_PS.Presenter;
+using TEMA1_PS.View;
+using TEMA1_PS.View.Interfaces;
 
-namespace Tema1_PS
+using TEMA1_PS.View.Pages;
+
+namespace TEMA1_PS
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window,IMainGui
     {
+        private MainPresenter _mainPresenter;
         public MainWindow()
         {
             InitializeComponent();
+            //mainFrame.Content = new HomePage();
+            mainFrame.NavigationUIVisibility = NavigationUIVisibility.Hidden;
+            _mainPresenter = new MainPresenter(this);
+            
+            mainFrame.Content = new AdminPage(_mainPresenter.ChangePage);
+            HideHeader();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -48,16 +49,43 @@ namespace Tema1_PS
 
         private void Login_Click(object sender, RoutedEventArgs e)
         {
-            main.Content = new LoginPage();
+            _mainPresenter.ShowLoginPage();   
         }
         private void Foms_Click(object sender, RoutedEventArgs e)
         {
-            UtilizatorDialog utilizatorDialog = new UtilizatorDialog();
-            PrezentareDialog prezentareDialog = new PrezentareDialog();
-            ConferintaDialog conferintaDialog = new ConferintaDialog();
-            utilizatorDialog.ShowDialog();
-            prezentareDialog.ShowDialog();
-            conferintaDialog.ShowDialog();
+            //UtilizatorDialog utilizatorDialog = new UtilizatorDialog();
+            //PrezentareDialog prezentareDialog = new PrezentareDialog();
+            //ConferintaDialog conferintaDialog = new ConferintaDialog();
+            //utilizatorDialog.ShowDialog();
+            //prezentareDialog.ShowDialog();
+            //conferintaDialog.ShowDialog();
+            mainFrame.Content = new HomePage();
+        }
+
+        private void main_Navigated(object sender, NavigationEventArgs e)
+        {
+
+        }
+
+        public Frame GetFrame()
+        {
+            return mainFrame;
+        }
+
+        public void SetFrameContent(Page page)
+        {
+            mainFrame.Content = page;
+        }
+
+        public void ShowHeader()
+        {
+            Header.Visibility = Visibility.Visible;
+        }
+
+        public void HideHeader()
+        {
+            //loginButton.Visibility = Visibility.Collapsed;
+            Header.Visibility = Visibility.Collapsed;
         }
     }
 }

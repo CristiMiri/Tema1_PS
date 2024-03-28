@@ -1,19 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Tema1_PS.Model
+﻿namespace TEMA1_PS.Model
 {
-    public enum Sectiune
-    {
-        STIINTE,
-        TEHNOLOGIE,
-        MEDICINA,
-        ARTA,
-        SPORT
-    }
 
     internal class Conferinta
     {
@@ -23,9 +9,8 @@ namespace Tema1_PS.Model
         private String data;
         private List<Utilizator> participanti;
         private List<Prezentare> prezentari;
-        private Sectiune sectiune;
 
-        public Conferinta(int id, string titlu, string locatie, string data, List<Utilizator> participanti, List<Prezentare> prezentari, Sectiune sectiune)
+        public Conferinta(int id, string titlu, string locatie, string data, List<Utilizator> participanti, List<Prezentare> prezentari)
         {
             this.id = id;
             this.titlu = titlu;
@@ -33,7 +18,6 @@ namespace Tema1_PS.Model
             this.data = data;
             this.participanti = participanti;
             this.prezentari = prezentari;
-            this.sectiune = sectiune;
         }
 
         public Conferinta(Conferinta conferinta)
@@ -44,7 +28,6 @@ namespace Tema1_PS.Model
             this.data = conferinta.data;
             this.participanti = conferinta.participanti;
             this.prezentari = conferinta.prezentari;
-            this.sectiune = conferinta.sectiune;
         }
 
         public Conferinta()
@@ -55,7 +38,6 @@ namespace Tema1_PS.Model
             this.data = "";
             this.participanti = new List<Utilizator>();
             this.prezentari = new List<Prezentare>();
-            this.sectiune = Sectiune.STIINTE;
         }
 
         public int Id
@@ -93,11 +75,6 @@ namespace Tema1_PS.Model
             get { return prezentari; }
             set { prezentari = value; }
         }
-
-        public Sectiune Sectiune
-        {
-            get { return sectiune; }
-            set { sectiune = value; }
-        }
+        
     }
 }

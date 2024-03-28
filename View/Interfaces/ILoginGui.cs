@@ -4,14 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tema1_PS.View.Interfaces
+namespace TEMA1_PS.View.Interfaces
 {
     internal interface ILoginGui : IGUI
     {
         String getEmail();
+        void setEmail(String email);
         String getPassword();
-        void Login();
-        void validData();
-        void goBack();
+        void setPassword(String password);
     }
 }

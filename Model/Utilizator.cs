@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tema1_PS.Model
+namespace TEMA1_PS.Model
 {
     public enum UserType
     {
@@ -21,7 +21,7 @@ namespace Tema1_PS.Model
         private String parola;
         private UserType userType;
         private String telefon;
-
+        private string password;
 
         public Utilizator(int id, string nume, string email, string parola, UserType userType, string telefon)
         {
@@ -51,6 +51,12 @@ namespace Tema1_PS.Model
             this.parola = "";
             this.userType = UserType.PARTICIPANT;
             this.telefon = "";
+        }
+
+        public Utilizator(string email, string password)
+        {
+            this.email = email;
+            this.password = password;
         }
 
         public int Id

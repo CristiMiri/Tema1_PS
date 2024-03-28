@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Tema1_PS.View
+namespace TEMA1_PS.View
 {
     /// <summary>
     /// Interaction logic for UtilizatorPage.xaml

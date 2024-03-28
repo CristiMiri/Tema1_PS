@@ -1,19 +1,27 @@
-﻿<Window x:Class="Tema1_PS.MainWindow"
+﻿<Window x:Class="TEMA1_PS.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Tema1_PS"
+        xmlns:local="clr-namespace:TEMA1_PS"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Conference Application" Height="600" Width="1000">
     <Grid>
+        <!-- Two Rows in the Grid -->
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Button Content="Login" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="70" Height="30" Grid.Row="1" Click="Login_Click"/>
-        <Frame Content="Main" Grid.Row="2" Name="main"/>
-        <Button Content="Forms" HorizontalAlignment="Left" VerticalAlignment="Center" Width="70" Height="30" Grid.Row="1" Margin="81,0,0,0" Click="Foms_Click"/>
+
+        <!-- First Row: Header -->
+        <StackPanel Orientation="Horizontal" Grid.Row="0" x:Name="Header">
+            <!-- Banner -->
+            <TextBlock Text="Conference Application" FontSize="20" FontWeight="Bold" VerticalAlignment="Center" Margin="10"/>
+            <!-- Login Button -->
+            <Button x:Name="loginButton" Content="Login" Width="70" Height="30" Margin="600,10,10,10" Click="Login_Click"/>
+        </StackPanel>
+
+        <!-- Second Row: Main Content -->
+        <Frame Content="Main" Grid.Row="1" Name="mainFrame" Margin="0,2,0,-2" Navigated="main_Navigated"/>
     </Grid>
 </Window>
